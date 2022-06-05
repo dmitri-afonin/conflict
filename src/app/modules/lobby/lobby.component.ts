@@ -49,6 +49,7 @@ export class LobbyComponent implements OnInit {
       answers: [],
       allAnswers,
       question,
+      movesToWin: 10,
       name: this.gameName,
       users: [{name: this.username, id: this.user.uid, score: 0, leader: true, hand}]
     }).then(() => {
@@ -57,7 +58,6 @@ export class LobbyComponent implements OnInit {
   }
   // выйти из браузера
   // добавляешь одного и тогоже юзера в игру
-  // добавить конец
   // перезаход в сессию
 
   ngOnInit(): void {

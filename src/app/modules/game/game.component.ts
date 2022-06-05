@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {switchMap, tap} from "rxjs";
 
 @Component({
@@ -13,7 +13,11 @@ export class GameComponent implements OnInit {
   gameUser: any = null;
   isAllUsersFinished = false;
   isUserFinished = false;
-  constructor(private afs: AngularFirestore, private route: ActivatedRoute) { }
+  constructor(
+    private afs: AngularFirestore,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.route.data.pipe(
@@ -23,6 +27,13 @@ export class GameComponent implements OnInit {
         this.gameUser = g.user;
         this.isAllUsersFinished = g.isAllUsersFinished;
         this.isUserFinished = g.isUserFinished;
+        this.game.users.forEach((u: any) => {
+          if (u.score === this.game.movesToWin) {
+            alert(`${u.name} win!`);
+            this.afs.collection('game').doc(this.game.id).delete();
+            this.router.navigate(['/']);
+          }
+        });
       })
     ).subscribe();
   }
