@@ -55,6 +55,10 @@ export class LobbyComponent implements OnInit {
       this.router.navigate(['game', id]);
     });
   }
+  // выйти из браузера
+  // добавляешь одного и тогоже юзера в игру
+  // добавить конец
+  // перезаход в сессию
 
   ngOnInit(): void {
     this.auth.user.subscribe(s => {

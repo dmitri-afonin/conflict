@@ -43,7 +43,7 @@ export class GameResolver implements Resolve<Observable<any>> {
   }
 
   getIsAllUsersFinished(g: any): boolean {
-    if (g.question.options.legth === 2) {
+    if (g.question.options === 2) {
       return g.answers.filter((a: any) => a.text && a.text2).length === g.users.length - 1;
     }
     return g.answers.length === g.users.length - 1;
@@ -54,7 +54,7 @@ export class GameResolver implements Resolve<Observable<any>> {
     if (!answer) {
       return false;
     }
-    if (g.question.options.legth === 2) {
+    if (g.question.options === 2) {
       return !!answer.text2;
     }
     return true;
