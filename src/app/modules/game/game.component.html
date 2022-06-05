@@ -1,0 +1,50 @@
+<div class="layout" *ngIf="game">
+  <mat-card class="users">
+    <mat-card-title>Счет</mat-card-title>
+
+    <mat-divider></mat-divider>
+
+    <mat-list>
+      <mat-list-item *ngFor="let user of game.users">
+        <span>{{user.name}}&nbsp;</span>
+        <strong>{{user.score}}&nbsp;</strong>
+        <span *ngIf="user.leader">(Ведущий)</span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+
+  <div class="question">
+    <mat-card>
+      <mat-card-title>{{game.question.text}}</mat-card-title>
+    </mat-card>
+
+    <div class="answers">
+      <mat-card
+        *ngFor="let answer of game.answers;"
+        class="answer"
+        (click)="chooseAnswer(answer)"
+        [ngClass]="{
+          inactive: !gameUser.leader,
+          disabled: !isAllUsersFinished
+        }"
+      >
+        <mat-list *ngIf="isAllUsersFinished">
+          <mat-list-item>{{answer.text}}</mat-list-item>
+          <mat-divider *ngIf="answer.text2"></mat-divider>
+          <mat-list-item *ngIf="answer.text2">{{answer.text2}}</mat-list-item>
+        </mat-list>
+      </mat-card>
+    </div>
+  </div>
+
+  <mat-card
+    *ngFor="let card of gameUser.hand;let i = index"
+    class="card" (click)="chooseCard(i)"
+    [ngClass]="{
+      disabled: isUserFinished || gameUser.leader
+    }"
+  >
+    {{card}}
+  </mat-card>
+
+</div>

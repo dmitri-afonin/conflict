@@ -1,0 +1,43 @@
+<div *ngIf="user" class="lobby">
+
+  <mat-card>
+    <mat-card-title>Имя в игре</mat-card-title>
+
+    <mat-divider></mat-divider>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Введите имя</mat-label>
+      <input matInput [(ngModel)]="username">
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card *ngIf="username">
+    <mat-card-title>Список игр</mat-card-title>
+
+    <mat-divider></mat-divider>
+
+    <mat-list>
+      <mat-list-item *ngFor="let game of games">
+        <span>{{game.name}}</span>
+        <button mat-button (click)="join(game)" [disabled]="!username">Присоединится</button>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="!games.length">
+        <em>Не найдено</em>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+
+  <mat-card *ngIf="username">
+    <mat-card-title>Новая игра</mat-card-title>
+
+    <mat-divider></mat-divider>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Придумайте название</mat-label>
+      <input matInput [(ngModel)]="gameName">
+    </mat-form-field>
+
+    <button mat-button [disabled]="!gameName" (click)="createGame()">Создать</button>
+  </mat-card>
+</div>

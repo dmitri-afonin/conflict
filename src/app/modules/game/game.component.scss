@@ -1,0 +1,52 @@
+.layout {
+  padding: 1em;
+  display: grid;
+  grid-template-areas: 'users question question question question'
+  'card card card card card';
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+.users {
+  grid-area: users;
+}
+
+.question {
+  grid-area: question;
+}
+
+.answers {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+.card.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.answer.disabled {
+  opacity: 0.5;
+}
+
+.answer.inactive {
+  pointer-events: none;
+}
+
+.answer:not(.disabled):not(.inactive) {
+  cursor: pointer;
+
+  &:hover {
+    background: aliceblue;
+  }
+}
+
+.card:not(.disabled) {
+  cursor: pointer;
+
+  &:hover {
+    background: aliceblue;
+  }
+}
