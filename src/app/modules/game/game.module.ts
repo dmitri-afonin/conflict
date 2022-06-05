@@ -6,6 +6,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {Route, RouterModule} from "@angular/router";
 import {GameResolver} from "./game.resolver";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 const children: Route[] = [
   {
@@ -27,7 +29,9 @@ const children: Route[] = [
     MatCardModule,
     MatDividerModule,
     MatListModule,
-    RouterModule.forChild(children)
+    RouterModule.forChild(children),
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class GameModule { }

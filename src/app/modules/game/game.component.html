@@ -5,10 +5,20 @@
     <mat-divider></mat-divider>
 
     <mat-list>
-      <mat-list-item *ngFor="let user of game.users">
+      <mat-list-item *ngFor="let user of game.users" class="user">
         <span>{{user.name}}&nbsp;</span>
         <strong>{{user.score}}&nbsp;</strong>
         <span *ngIf="user.leader">(Ведущий)</span>
+
+        <button
+          *ngIf="user.id !== gameUser.id"
+          mat-icon-button
+          aria-label="delete user"
+          class="delete-user"
+          (click)="deleteUser(user)"
+        >
+          <mat-icon>delete_forever</mat-icon>
+        </button>
       </mat-list-item>
     </mat-list>
   </mat-card>

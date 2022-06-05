@@ -50,3 +50,12 @@
     background: aliceblue;
   }
 }
+
+.delete-user {
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.user:hover .delete-user {
+  opacity: 1;
+}

@@ -87,6 +87,16 @@ export class GameComponent implements OnInit {
     });
   }
 
+  deleteUser(user: any): void {
+    const users = this.game.users.filter((u: any) => u.id !== user.id);
+    if (user.leader) {
+      users[0].leader = true;
+    }
+    this.afs.collection('game').doc(this.game.id).set({
+      users,
+    }, {merge: true});
+  }
+
   shuffle(array: any[]) {
     let currentIndex = array.length,  randomIndex;
 

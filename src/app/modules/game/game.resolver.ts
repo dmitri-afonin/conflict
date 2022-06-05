@@ -12,6 +12,8 @@ export class GameResolver implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Observable<any>> {
     const gameId = route.params['gameId'];
+    const userName = route.queryParams['username'];
+    console.log({userName});
     let user: any;
     return of(combineLatest([
       this.afs.doc(`game/${gameId}`).valueChanges(),
@@ -23,7 +25,7 @@ export class GameResolver implements Resolve<Observable<any>> {
           const hand = game.allAnswers.splice(0, 10);
           this.afs.doc(`game/${gameId}`).set({
             ...game,
-            users: [...game.users, {name: u.email ?? u.uid, id: u.uid, score: 0, leader: false, hand}]
+            users: [...game.users, {name: userName ?? u.email ?? u.uid, id: u.uid, score: 0, leader: false, hand}]
           });
           return false;
         }

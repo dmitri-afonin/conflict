@@ -26,13 +26,7 @@ export class LobbyComponent implements OnInit {
 
   }
   join(game: any):void {
-    const hand = game.allAnswers.splice(0, 10);
-    this.afs.collection('game').doc(game.id).set({
-      ...game,
-      users: [...game.users, {name: this.username, id: this.user.uid, score: 0, leader: false, hand}]
-    }).then(() => {
-      this.router.navigate(['game', game.id]);
-    });
+    this.router.navigate(['game', game.id], {queryParams: {username: this.username}});
   }
 
   createGame() {
@@ -56,9 +50,6 @@ export class LobbyComponent implements OnInit {
       this.router.navigate(['game', id]);
     });
   }
-  // выйти из браузера
-  // добавляешь одного и тогоже юзера в игру
-  // перезаход в сессию
 
   ngOnInit(): void {
     this.auth.user.subscribe(s => {
