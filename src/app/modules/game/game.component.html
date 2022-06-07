@@ -22,39 +22,41 @@
       </mat-list-item>
     </mat-list>
   </mat-card>
-
-  <div class="question">
-    <mat-card>
-      <mat-card-title>{{game.question.text}}</mat-card-title>
-    </mat-card>
-
-    <div class="answers">
-      <mat-card
-        *ngFor="let answer of game.answers;"
-        class="answer"
-        (click)="chooseAnswer(answer)"
-        [ngClass]="{
-          inactive: !gameUser.leader,
-          disabled: !isAllUsersFinished
-        }"
-      >
-        <mat-list *ngIf="isAllUsersFinished">
-          <mat-list-item>{{answer.text}}</mat-list-item>
-          <mat-divider *ngIf="answer.text2"></mat-divider>
-          <mat-list-item *ngIf="answer.text2">{{answer.text2}}</mat-list-item>
-        </mat-list>
-      </mat-card>
-    </div>
-  </div>
-
-  <mat-card
-    *ngFor="let card of gameUser.hand;let i = index"
-    class="card" (click)="chooseCard(i)"
-    [ngClass]="{
-      disabled: isUserFinished || gameUser.leader
-    }"
-  >
-    {{card}}
+  <mat-card *ngIf="game.users.length < 3">
+    <mat-card-title>Игроков подключено: {{game.users.length}}/3 </mat-card-title>
   </mat-card>
 
+  <ng-container  *ngIf="game.users.length >= 3">
+    <div class="question">
+      <mat-card>
+        <mat-card-title>{{game.question.text}}</mat-card-title>
+      </mat-card>
+
+      <div class="answers">
+        <mat-card
+          *ngFor="let answer of game.answers;"
+          class="answer"
+          (click)="chooseAnswer(answer)"
+          [class.mat-elevation-z24]="isAllUsersFinished && gameUser.leader"
+          [class.mat-elevation-z0]="!isAllUsersFinished || !gameUser.leader"
+          [class.inactive]="!gameUser.leader"
+        >
+          <mat-list *ngIf="isAllUsersFinished">
+            <mat-list-item>{{answer.text}}</mat-list-item>
+            <mat-divider *ngIf="answer.text2"></mat-divider>
+            <mat-list-item *ngIf="answer.text2">{{answer.text2}}</mat-list-item>
+          </mat-list>
+        </mat-card>
+      </div>
+    </div>
+
+    <mat-card
+      *ngFor="let card of gameUser.hand;let i = index"
+      class="card" (click)="chooseCard(i)"
+      [class.mat-elevation-z24]="!isUserFinished && !gameUser.leader"
+      [class.mat-elevation-z0]="isUserFinished || gameUser.leader"
+    >
+      {{card}}
+    </mat-card>
+  </ng-container>
 </div>

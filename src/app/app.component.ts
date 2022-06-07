@@ -1,9 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import firebase from 'firebase/compat/app';
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',

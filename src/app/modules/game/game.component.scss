@@ -22,20 +22,15 @@
   grid-gap: 1em;
 }
 
-.card.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.answer.disabled {
-  opacity: 0.5;
-}
-
-.answer.inactive {
+.mat-elevation-z0 {
   pointer-events: none;
 }
 
-.answer:not(.disabled):not(.inactive) {
+.answer {
+  min-height: 10em;
+}
+
+.answer:not(.mat-elevation-z0):not(.inactive) {
   cursor: pointer;
 
   &:hover {
@@ -43,7 +38,7 @@
   }
 }
 
-.card:not(.disabled) {
+.card:not(.mat-elevation-z0) {
   cursor: pointer;
 
   &:hover {
