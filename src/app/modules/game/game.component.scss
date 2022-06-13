@@ -28,6 +28,9 @@
 
 .answer {
   min-height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .answer:not(.mat-elevation-z0):not(.inactive) {
@@ -53,4 +56,9 @@
 
 .user:hover .delete-user {
   opacity: 1;
+}
+
+.spacer {
+  padding: 1em;
+  flex: 1;
 }

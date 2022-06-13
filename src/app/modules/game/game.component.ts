@@ -12,6 +12,7 @@ export class GameComponent implements OnInit {
   game: any = null;
   gameUser: any = null;
   isAllUsersFinished = false;
+  options: any = [];
   isUserFinished = false;
   constructor(
     private afs: AngularFirestore,
@@ -27,6 +28,7 @@ export class GameComponent implements OnInit {
         this.gameUser = g.user;
         this.isAllUsersFinished = g.isAllUsersFinished;
         this.isUserFinished = g.isUserFinished;
+        this.options = Array(this.game.question.options).fill(0);
         this.game.users.forEach((u: any) => {
           if (u.score === this.game.movesToWin) {
             alert(`${u.name} win!`);
@@ -43,26 +45,22 @@ export class GameComponent implements OnInit {
       return;
     }
     const answers = this.game.answers;
-    const myAnswer = this.game.answers.find((a: any) => a.id === this.gameUser.id);
+    let myAnswer = this.game.answers.find((a: any) => a.id === this.gameUser.id);
     if (!myAnswer) {
-      const newCard = this.game.allAnswers.splice(0, 1);
-      const card = this.gameUser.hand.splice(i, 1, ...newCard);
-
-      answers.push({id: this.gameUser.id, text: card});
-
-      this.afs.collection('game').doc(this.game.id).set({
-        ...this.game,
-        answers: this.shuffle(answers)
-      });
-    } else if (this.game.question.options === 2 && !myAnswer.text2) {
-      const newCard = this.game.allAnswers.splice(0, 1);
-      myAnswer.text2 = this.gameUser.hand.splice(i, 1, ...newCard);
-
-      this.afs.collection('game').doc(this.game.id).set({
-        ...this.game,
-        answers: this.shuffle(answers)
-      });
+      myAnswer = {id: this.gameUser.id};
+      answers.push(myAnswer);
     }
+    for (let j = 1; j <= this.options.length; j++) {
+      if (!myAnswer[`text${j}`]) {
+        const newCard = this.game.allAnswers.splice(0, 1);
+        myAnswer[`text${j}`] = this.gameUser.hand.splice(i, 1, ...newCard);
+        break;
+      }
+    }
+    this.afs.collection('game').doc(this.game.id).set({
+      ...this.game,
+      answers: this.shuffle(answers)
+    });
   }
 
   chooseAnswer(answer: any): void {

@@ -24,14 +24,14 @@ const children: Route[] = [
   declarations: [
     GameComponent
   ],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    RouterModule.forChild(children),
-    MatIconModule,
-    MatButtonModule
-  ]
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        RouterModule.forChild(children),
+        MatIconModule,
+        MatButtonModule
+    ]
 })
 export class GameModule { }

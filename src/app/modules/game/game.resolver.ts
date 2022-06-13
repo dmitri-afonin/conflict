@@ -13,7 +13,6 @@ export class GameResolver implements Resolve<Observable<any>> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Observable<any>> {
     const gameId = route.params['gameId'];
     const userName = route.queryParams['username'];
-    console.log({userName});
     let user: any;
     return of(combineLatest([
       this.afs.doc(`game/${gameId}`).valueChanges(),
@@ -34,6 +33,7 @@ export class GameResolver implements Resolve<Observable<any>> {
       map(([game]: any) => {
         const isAllUsersFinished = this.getIsAllUsersFinished(game);
         const isUserFinished = this.getIsUserFinished(game, user.id);
+        game.users = game.users.map((u: any) => ({...u, isFinished: this.getIsUserFinished(game, u.id)}))
         return {
           game,
           user,
@@ -45,20 +45,12 @@ export class GameResolver implements Resolve<Observable<any>> {
   }
 
   getIsAllUsersFinished(g: any): boolean {
-    if (g.question.options === 2) {
-      return g.answers.filter((a: any) => a.text && a.text2).length === g.users.length - 1;
-    }
-    return g.answers.length === g.users.length - 1;
+    const fullAnswers = g.answers.filter((a: any) => a[`text${g.question.options}`]);
+    return fullAnswers.length === g.users.length - 1;
   }
 
   getIsUserFinished(g: any, id: string): boolean {
     const answer = g.answers.find((a: any) => a.id === id);
-    if (!answer) {
-      return false;
-    }
-    if (g.question.options === 2) {
-      return !!answer.text2;
-    }
-    return true;
+    return !!answer?.[`text${g.question.options}`];
   }
 }

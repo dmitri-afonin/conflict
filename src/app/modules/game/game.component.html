@@ -7,7 +7,6 @@
     <mat-list>
       <mat-list-item *ngFor="let user of game.users" class="user">
         <span>{{user.name}}&nbsp;</span>
-        <strong>{{user.score}}&nbsp;</strong>
         <span *ngIf="user.leader">(Ведущий)</span>
 
         <button
@@ -19,9 +18,19 @@
         >
           <mat-icon>delete_forever</mat-icon>
         </button>
+
+        <div class="spacer"></div>
+
+        <strong>{{user.score}}&nbsp;</strong>
+
+        <mat-icon *ngIf="!user.isFinished">schedule</mat-icon>
+
+        <mat-icon *ngIf="user.isFinished">done</mat-icon>
+
       </mat-list-item>
     </mat-list>
   </mat-card>
+
   <mat-card *ngIf="game.users.length < 3">
     <mat-card-title>Игроков подключено: {{game.users.length}}/3 </mat-card-title>
   </mat-card>
@@ -41,10 +50,15 @@
           [class.mat-elevation-z0]="!isAllUsersFinished || !gameUser.leader"
           [class.inactive]="!gameUser.leader"
         >
-          <mat-list *ngIf="isAllUsersFinished">
-            <mat-list-item>{{answer.text}}</mat-list-item>
-            <mat-divider *ngIf="answer.text2"></mat-divider>
-            <mat-list-item *ngIf="answer.text2">{{answer.text2}}</mat-list-item>
+          <mat-list>
+            <ng-container *ngFor="let option of options; let i = index">
+              <mat-list-item>
+                <span *ngIf="isAllUsersFinished">{{answer['text' + (i + 1)]}}</span>
+                <mat-icon *ngIf="!isAllUsersFinished && !answer['text'+ (i + 1)]">schedule</mat-icon>
+                <mat-icon *ngIf="!isAllUsersFinished && answer['text'+ (i + 1)]">visibility_off</mat-icon>
+              </mat-list-item>
+              <mat-divider *ngIf="i < options.length - 1"></mat-divider>
+            </ng-container>
           </mat-list>
         </mat-card>
       </div>
